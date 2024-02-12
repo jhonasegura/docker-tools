@@ -1,7 +1,6 @@
-version: "3.8"
+version: "3.7"
 
 services: 
-  // Postgres
   postgres:
     image: postgres
     restart: always
@@ -22,15 +21,33 @@ services:
       - "80:80"
     depends_on:
       - postgres
-  //SQL Server
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sqlserver2019
-    ports:
-      - 1433:1433
-    environment:
-      ACCEPT_EULA: Y
-      SA_USER: root
-      SA_PASSWORD: Password01
-      MSSQL_PID: Express
   
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - SA_PASSWORD=Castvna88
+      - ACCEPT_EULA=Y
+      - MSSQL_USERNAME=jhonathan
+      - MSSQL_PASSWORD=Muztbahdw
+      - MSSQL_DATABASE=principal
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data:/var/opt/mssql/data
+
+  mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=jhonathan
+      - MONGO_INITDB_ROOT_PASSWORD=Muztbahdw
+      - MONGO_DATABASE=principal
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=Muztbahdw
+      - REDIS_DATABASE=principal
+    ports:
+      - "6379:6379"
